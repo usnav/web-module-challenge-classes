@@ -20,6 +20,7 @@ class Airplane {
   land() {
     this.isFlying = false;
   }
+  
 }
 
 /*
@@ -44,8 +45,24 @@ class Airplane {
 */
 
 class Person {
-  
+  constructor(name,age) {
+    this.name = name;
+    this.age = age; 
+    this.stomach = [];
+  }
+  eat(edible){
+    if (this.stomach.length < 10) {
+      this.stomach.push(edible);
+    } 
+  }
+  poop(){
+    this.stomach = [];
+  }
+  toString(){
+    return `${this.name}, ${this.age}`;
+  }
 }
+
 
 /*
   TASK 2
@@ -62,7 +79,27 @@ class Person {
 */
 
 class Car {
-  
+  constructor(model, milesPerGallon){
+    this.model = model;
+    this.milesPerGallon = milesPerGallon;
+    this.tank = 0; 
+    this.odometer = 0;
+  }
+fill(gallons){
+  this.tank = this.tank + gallons;
+}
+drive(distance){
+  const drivableMiles = this.tank * this.milesPerGallon;
+  if (distance <= drivableMiles){
+    this.odometer = this.odometer + distance;
+    this.tank = this.tank - (distance / this.milesPerGallon);
+  }
+ else {
+  this.odometer = this.odometer + drivableMiles;
+  this.tank = 0; 
+  return `I ran out of fuel at ${this.odometer} miles!`;
+ }
+}
 }
 
 /*
@@ -79,7 +116,14 @@ class Car {
 */
 
 class Lambdasian {
-  
+  constructor({name, age, location}){
+    this.name = name;
+    this.age = age;
+    this.location  = location; 
+  }
+  speak (){
+    return `Hello my name is ${this.name}, I am from ${this.location}`;
+  }
 }
 
 /*
@@ -97,8 +141,19 @@ class Lambdasian {
         + `grade` receives a `student` object and a `subject` string as arguments and returns '{student.name} receives a perfect score on {subject}'
 */
 
-class Instructor {
-
+class Instructor extends Lambdasian{
+  constructor({name, age, location, specialty, favLanguage, catchPhrase}){
+    super({name, age, location, specialty, favLanguage, catchPhrase});
+    this.specialty = specialty; 
+    this.favLanguage = favLanguage; 
+    this.catchPhrase = catchPhrase; 
+  }
+  demo(subject){
+return `Today we are learning about ${subject}`;
+  }
+  grade(student, subject){
+return `${student.name} receives a perfect score on ${subject}`;
+  }
 }
 
 /*
@@ -115,13 +170,28 @@ class Instructor {
         + `listSubjects` a method that returns all of the student's favSubjects in a single string: `Loving HTML, CSS, JS!`.
         + `PRAssignment` a method that receives a subject as an argument and returns `student.name has submitted a PR for {subject}`
         + `sprintChallenge` similar to PRAssignment but returns `student.name has begun sprint challenge on {subject}`
-*/
+*/ 
 
-class Student {
-   
+// name, age, location, previousBackground, className, favSubjects
+
+class Student extends Lambdasian{
+  constructor({name, age, location, previousBackground, className, favSubjects}){
+    super({name, age, location, previousBackground, className, favSubjects});
+    this.previousBackground = previousBackground;
+    this.className = className; 
+    this.favSubjects = favSubjects; 
+  }
+  listSubjects(){
+  return `Loving ${this.favSubjects}`;
+  }
+  PRAssignment(subject){
+  return `${this.name} has submitted a PR for ${subject}`;
+  }
+  sprintChallenge(subject){
+  return `${this.name} has begun sprint challenge on ${subject}`;
+  }
 }
-
-/*
+/*  
   TASK 6
     - Write a ProjectManager class extending Instructor.
     - Its constructor takes a single argument - an object with the following keys:
@@ -135,8 +205,18 @@ class Student {
         + `debugsCode` a method that takes in a student object and a subject and returns `{name} debugs {student.name}'s code on {subject}`
 */
 
-class ProjectManager {
-   
+class ProjectManager extends Instructor{
+   constructor({name, age, location, specialty, favLanguage, catchPhrase, gradClassName,favInstructor}){
+    super({name, age, location, specialty, favLanguage, catchPhrase, gradClassName,favInstructor});
+    this.gradClassName = gradClassName;
+    this.favInstructor = favInstructor;
+   }
+   standUp(channel){
+return `${this.name} announces to ${channel}, @channel standy times!`;
+   }
+   debugsCode(student, subject){
+return `${this.name} debugs ${student.name}'s code on ${subject}`;
+   }
 }
 
 /*
